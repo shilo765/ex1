@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class DWGraph_DS implements directed_weighted_graph {
-    private HashMap<Integer, node_data> nodes;
-    private HashMap<String, edge_data> edges;
+    private HashMap<Integer, node_data> nodes=new HashMap<>();
+    private HashMap<String, edge_data> edges= new HashMap<>();
     public static int ModeCount = 0;
     @Override
     public node_data getNode(int key) {
@@ -21,14 +21,17 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-        if(nodes.put(n.getKey(),n)!=null)
+        if(n!=null)
+        nodes.put(n.getKey(),n);
             ModeCount++;
     }//small test
 
     @Override
     public void connect(int src, int dest, double w) {
     edge_data ed=new EdgeData(src,dest,w);
-    if(edges.put(src+","+dest,ed)!=null)
+    int temp=edges.size();
+    edges.put(src+","+dest,ed);
+    if(edges.size()>temp)
         ModeCount++;
     }
 
@@ -40,9 +43,15 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public Collection<edge_data> getE(int node_id) {
         HashSet<edge_data> nei=new HashSet<>();
-        for(Integer str:nodes.keySet())
-            if(str.toString().split(",")[0].equals(node_id))
+        String str2="";
+        for(String str:edges.keySet()){
+            str2=(str.split(",")[0]);
+            if(Integer.parseInt(str2)==node_id)
                 nei.add(edges.get(str));
+        }
+                str2="big";
+              //  nei.add(edges.get(str));
+        str2+="";
         return nei;
     }
 
