@@ -3,15 +3,24 @@ package api;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class DWGraph_DS implements directed_weighted_graph {
     private HashMap<Integer, node_data> nodes=new HashMap<>();
     private HashMap<String, edge_data> edges= new HashMap<>();
     public static int ModeCount = 0;
+    public DWGraph_DS copy(){
+        DWGraph_DS dwg=new DWGraph_DS();
+        for(node_data nd:this.nodes.values())
+            dwg.nodes.put(nd.getKey(),((NodeData)nd).copy());
+        for(edge_data ed:this.edges.values())
+            dwg.edges.put(ed.getSrc()+","+ ed.getDest(),((EdgeData)ed).copy());
+        return dwg;
+    }
     @Override
     public node_data getNode(int key) {
 
-        return (node_data) this.nodes.get(key);
+        return  this.nodes.get(key);
     }
 
     @Override
@@ -79,6 +88,20 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public int edgeSize() {
         return edges.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DWGraph_DS that = (DWGraph_DS) o;
+        return nodes.equals(that.nodes) &&
+                edges.equals(that.edges);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodes, edges);
     }
 
     @Override

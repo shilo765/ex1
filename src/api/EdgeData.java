@@ -1,10 +1,30 @@
 package api;
 
+import java.util.Objects;
+
 public class EdgeData implements edge_data {
     int src,dest,tag=-1;
     double weight;
     String info="";
-    public EdgeData(int src,int dest,double weight)
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EdgeData edgeData = (EdgeData) o;
+        return src == edgeData.src &&
+                dest == edgeData.dest &&
+                tag == edgeData.tag &&
+                Double.compare(edgeData.weight, weight) == 0 &&
+                Objects.equals(info, edgeData.info);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(src, dest, tag, weight, info);
+    }
+
+    public EdgeData(int src, int dest, double weight)
     {
         this.src=src;
         this.dest=dest;
@@ -43,5 +63,12 @@ public class EdgeData implements edge_data {
     @Override
     public void setTag(int t) {
     this.tag=t;
+    }
+
+    public edge_data copy() {
+        EdgeData ed=new EdgeData(this.src,this.dest,this.weight);
+        ed.tag=this.tag;
+        ed.info=this.info;
+        return ed;
     }
 }
