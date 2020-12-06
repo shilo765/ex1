@@ -23,7 +23,7 @@ public class DWGraph_DS implements directed_weighted_graph {
     public void addNode(node_data n) {
         if(nodes.put(n.getKey(),n)!=null)
             ModeCount++;
-    }
+    }//small test
 
     @Override
     public void connect(int src, int dest, double w) {
