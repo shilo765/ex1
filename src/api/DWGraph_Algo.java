@@ -35,7 +35,31 @@ public class DWGraph_Algo implements dw_graph_algorithms{
     public boolean isConnected() {
         if (this.dwg.getV().size()==1||this.dwg.getV().size()==0)
             return true;
-        return false;
+        node_data tempNd=null;
+        boolean b1=true;
+        for(node_data n1:this.dwg.getV())
+        {
+            if(tempNd==null)
+                tempNd=n1;
+            else
+            {
+                b1=b1&&(shortestPathDist(tempNd.getKey(),n1.getKey())!=-1);
+            }
+        }
+        if(!b1)
+            return false;
+        ((DWGraph_DS)dwg).reverse();
+        for(node_data n1:this.dwg.getV())
+        {
+            if(tempNd==null)
+                tempNd=n1;
+            else
+            {
+                b1=b1&&(shortestPathDist(tempNd.getKey(),n1.getKey())!=-1);
+            }
+        }
+        ((DWGraph_DS)dwg).reverse();
+        return b1;
     }
     /**set all the info to be -1 like defult*/
     public void setAllInfo()

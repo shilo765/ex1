@@ -55,4 +55,26 @@ public class DWG_AlgoTest {
         if(dwa.shortestPath(nd1.getKey(),nd3.getKey()).contains(2))
             fail("method shortestPath not work properly");
     }
+    @Test
+    public void connectivity()
+    {
+        dw_graph_algorithms dwa=new DWGraph_Algo();
+        NodeData nd1=new NodeData();
+        NodeData nd2=new NodeData();
+        NodeData nd3=new NodeData();
+        if(!dwa.isConnected())
+            fail("method isConnect not work properly");
+        dwa.getGraph().addNode(nd1);
+        if(!dwa.isConnected())
+            fail("method isConnect not work properly");
+        dwa.getGraph().addNode(nd2);
+        if(dwa.isConnected())
+            fail("method isConnect not work properly");
+        dwa.getGraph().addNode(nd3);
+        dwa.getGraph().connect(nd1.getKey(),nd2.getKey(),8);
+        dwa.getGraph().connect(nd2.getKey(),nd3.getKey(),8);
+        dwa.getGraph().connect(nd3.getKey(),nd1.getKey(),8);
+        if(!dwa.isConnected())
+            fail("method isConnect not work properly");
+    }
 }

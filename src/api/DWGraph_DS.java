@@ -22,7 +22,18 @@ public class DWGraph_DS implements directed_weighted_graph {
 
         return  this.nodes.get(key);
     }
+    public void reverse()
+    {
+        edge_data tempE;
+        HashMap<String, edge_data> rev=new HashMap<>();
+        for(edge_data e1:this.edges.values())
+        {
+            tempE=new EdgeData(e1.getDest(),e1.getSrc(),e1.getWeight());
+            rev.put(tempE.getSrc()+","+ tempE.getDest(),tempE);
+        }
+        this.edges=rev;
 
+    }
     @Override
     public edge_data getEdge(int src, int dest) {
         return this.edges.get(src+","+dest);
