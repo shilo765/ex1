@@ -10,7 +10,7 @@ public class NodeData implements node_data,Comparable<NodeData> {
     private static int keyCount = 0;
     private int key = -1;
     private int tag = -1;
-    private String info = "";
+    private String info = "-1";
     private static double NodeEdges = 0.0D;
     private int lastNei = -1;
     //private HashMap<Integer, node_data> nei;

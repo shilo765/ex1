@@ -14,6 +14,8 @@ public class DWG_AlgoTest {
         DWGraph_DS dwg=new DWGraph_DS();
 
         NodeData nd1=new NodeData();
+        NodeData nd2=new NodeData();
+        NodeData nd3=new NodeData();
         dwa.getGraph().addNode(nd1);
         dwa2=dwa;
         if(dwa2.getGraph().nodeSize()==0)
@@ -29,5 +31,28 @@ public class DWG_AlgoTest {
             fail("method equals not work properly");
         //dwa.save("hh");
         //dwa.load("hh");
+
+    }
+    @Test
+    public void shortestPathPathDistTest()
+    {
+        dw_graph_algorithms dwa=new DWGraph_Algo();
+        NodeData nd1=new NodeData();
+        NodeData nd2=new NodeData();
+        NodeData nd3=new NodeData();
+        dwa.getGraph().addNode(nd1);
+        dwa.getGraph().addNode(nd2);
+        dwa.getGraph().addNode(nd3);
+        if(!dwa.shortestPath(nd1.getKey(),nd3.getKey()).isEmpty())
+            fail("method shortestPath not work properly");
+        dwa.getGraph().connect(nd1.getKey(),nd2.getKey(),5);
+        dwa.getGraph().connect(nd2.getKey(),nd3.getKey(),3.5);
+        if(dwa.shortestPathDist(nd1.getKey(), nd3.getKey())!=8.5)
+            fail("method shortestPathDist not work properly");
+        dwa.getGraph().connect(nd1.getKey(), nd3.getKey(),3);
+        if(dwa.shortestPathDist(nd1.getKey(), nd3.getKey())!=3)
+            fail("method shortestPathDist not work properly");
+        if(dwa.shortestPath(nd1.getKey(),nd3.getKey()).contains(2))
+            fail("method shortestPath not work properly");
     }
 }
