@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public interface directed_weighted_graph {
 	/**
-	 * returns the node_data by the node_id'shilo,
+	 * returns the node_data by the node_id',
 	 * @param key - the node_id
 	 * @return the node_data by the node_id, null if none.
 	 */
