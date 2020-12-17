@@ -34,5 +34,7 @@ public class DWGraph_DSTest {
         dwg.removeNode(nd2.getKey());
         if(dwg.nodeSize()!=0)
             fail("method removeNode not work properly");
+
+
     }
 }

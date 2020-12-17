@@ -29,8 +29,15 @@ public class DWG_AlgoTest {
             fail("method copy not work properly");
         if(dwa.getGraph().equals(dwg))
             fail("method equals not work properly");
-        //dwa.save("hh");
-        //dwa.load("hh");
+        dwa.getGraph().addNode(nd2);
+        dwa.getGraph().addNode(nd3);
+        dwa.getGraph().connect(nd1.getKey(),nd3.getKey(),8);
+        dwa2=new DWGraph_Algo();
+        dwa.save("hh");
+        dwa2.load("hh");
+        if(!dwa.equals(dwa2))
+            fail("save or load method not work properly");
+
 
     }
     @Test

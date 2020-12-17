@@ -1,14 +1,9 @@
 package api;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class DWGraph_Algo implements dw_graph_algorithms{
     directed_weighted_graph dwg=new DWGraph_DS();
@@ -145,13 +140,43 @@ public class DWGraph_Algo implements dw_graph_algorithms{
     @Override
     public boolean load(String file) {
         try {
-            JsonParser parser=new JsonParser();
-            DWGraph_Algo dwa=new DWGraph_Algo();
-            Gson json=new Gson();
-            Object obj= parser.parse(new FileReader(".\\"+file+".json"));
-            JsonObject jsOb=(JsonObject)obj;
-            String key=jsOb.get("key").toString();
-            this.dwg=dwa.getGraph();
+            directed_weighted_graph dwG=new DWGraph_DS();
+            JsonParser parser = new JsonParser();
+            DWGraph_Algo dwa = new DWGraph_Algo();
+            Gson json = new Gson();
+            Object obj = parser.parse(new FileReader(".\\" + file + ".json"));
+            JsonObject jsOb = (JsonObject) obj;
+            JsonObject dwg = jsOb.get("dwg").getAsJsonObject();
+            System.out.println(dwg.toString());
+            JsonObject nodes = dwg.get("nodes").getAsJsonObject();
+            for (String node : nodes.keySet()) {
+                NodeData n1 = new NodeData();
+                JsonObject nodeKey = nodes.get(node).getAsJsonObject();
+                n1.setKey(Integer.parseInt(node));
+                n1.setTag(((JsonObject) nodes.get(node)).get("tag").getAsInt());
+                n1.setInfo(((JsonObject) nodes.get(node)).get("info").getAsString());
+                n1.setLastNei(((JsonObject) nodes.get(node)).get("lastNei").getAsInt());
+                JsonObject gl = nodeKey.get("gl").getAsJsonObject();
+                ((GeoLocation)n1.getLocation()).setX(gl.get("x").getAsDouble());
+                ((GeoLocation)n1.getLocation()).setY(gl.get("y").getAsDouble());
+                ((GeoLocation)n1.getLocation()).setZ(gl.get("z").getAsDouble());
+                ((GeoLocation)n1.getLocation()).setX(gl.get("x").getAsDouble());
+                ((GeoLocation)n1.getLocation()).setDistance(gl.get("distance").getAsDouble());
+                dwG.addNode(n1);
+            }
+            JsonObject edges = dwg.get("edges").getAsJsonObject();
+            for(String edge : edges.keySet())
+            {
+                JsonObject edgeKey = edges.get(edge).getAsJsonObject();
+                edge_data ed=new EdgeData(Integer.parseInt(edge.split(",")[0]),Integer.parseInt(edge.split(",")[1]),edgeKey.get("weight").getAsDouble());
+                ed.setInfo(edgeKey.get("info").getAsString());
+                ed.setTag(edgeKey.get("tag").getAsInt());
+                dwG.connect(Integer.parseInt(edge.split(",")[0]),Integer.parseInt(edge.split(",")[1]),edgeKey.get("weight").getAsDouble());
+                dwG.getEdge(Integer.parseInt(edge.split(",")[0]),Integer.parseInt(edge.split(",")[1])).setTag(edgeKey.get("tag").getAsInt());
+                dwG.getEdge(Integer.parseInt(edge.split(",")[0]),Integer.parseInt(edge.split(",")[1])).setInfo(edgeKey.get("info").getAsString());
+            }
+            this.init(dwG);
+            return true;
         }
         catch (IOException e)
         {
